@@ -149,13 +149,54 @@ export default function DashboardPage() {
               <h1 className="font-serif text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
                 Namaste, {user?.firstName || "Teacher"}
               </h1>
-              <p className="text-sm font-medium text-stone-500">Here&apos;s what&apos;s happening today.</p>
+              <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1">
+                <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal-600">
+                  <Users className="size-3.5" />
+                  {students.length} {students.length === 1 ? 'Student' : 'Students'}
+                </p>
+                <div className="hidden h-3 w-px bg-stone-200 sm:block" />
+                <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-600">
+                  <Music className="size-3.5" />
+                  {recentLessons.length > 0 ? 'Active Repertoire' : 'No lessons sent yet'}
+                </p>
+              </div>
             </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={fetchData} className="h-10 w-10 rounded-full p-0 text-stone-400">
-            <RefreshCw className={`size-4 ${loadingApprovals ? 'animate-spin' : ''}`} />
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={fetchData} 
+            className="h-10 rounded-xl border-stone-200 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-900"
+          >
+            <RefreshCw className={`mr-2 size-3.5 ${loadingApprovals ? 'animate-spin' : ''}`} />
+            <span className="text-[10px] font-black uppercase tracking-widest">Refresh</span>
           </Button>
         </div>
+
+        {/* Overview Stats for Teachers */}
+        <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div className="rounded-3xl border border-stone-100 bg-white p-5 shadow-sm">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400">Total Students</p>
+            <p className="mt-1 text-2xl font-black text-stone-900">{students.length}</p>
+          </div>
+          <div className="rounded-3xl border border-stone-100 bg-white p-5 shadow-sm">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400">Lessons Sent</p>
+            <p className="mt-1 text-2xl font-black text-stone-900">{recentLessons.length}</p>
+          </div>
+          <div className="rounded-3xl border border-stone-100 bg-white p-5 shadow-sm">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400">Pending</p>
+            <p className={`mt-1 text-2xl font-black ${pendingApprovals.length > 0 ? 'text-amber-500' : 'text-stone-900'}`}>
+              {pendingApprovals.length}
+            </p>
+          </div>
+          <div className="rounded-3xl border border-stone-100 bg-white p-5 shadow-sm">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400">Status</p>
+            <div className="mt-2 flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-teal-600">Online</p>
+            </div>
+          </div>
+        </section>
 
         {/* Approvals - Only show if there are any */}
         {pendingApprovals.length > 0 && (
@@ -189,23 +230,23 @@ export default function DashboardPage() {
         <section>
           <div className="mb-4 flex items-center gap-2 px-1">
             <Clock className="size-4 text-stone-400" />
-            <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400">Quick Actions</h2>
+            <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400">Essential Tasks</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {quickActions.map((action) => {
               const Icon = action.icon;
               return (
                 <Link key={action.title} href={action.href} className="group">
-                  <div className="flex h-full flex-col gap-4 rounded-[2rem] border border-stone-100 bg-white p-6 shadow-xl shadow-stone-200/40 transition-all group-hover:-translate-y-1 group-hover:shadow-2xl group-active:scale-[0.98]">
-                    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${action.color} text-white shadow-lg`}>
-                      <Icon className="size-6" />
+                  <div className="flex h-full flex-col gap-6 rounded-[2.5rem] border border-stone-100 bg-white p-6 shadow-xl shadow-stone-200/40 transition-all duration-500 group-hover:-translate-y-1.5 group-hover:border-teal-100 group-hover:shadow-2xl group-hover:shadow-teal-900/5 group-active:scale-[0.98]">
+                    <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${action.color} text-white shadow-lg shadow-stone-200 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+                      <Icon className="size-7" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-stone-900">{action.title}</h3>
-                      <p className="text-sm font-medium text-stone-500">{action.desc}</p>
+                      <h3 className="text-xl font-bold tracking-tight text-stone-900">{action.title}</h3>
+                      <p className="mt-1 text-sm font-medium leading-relaxed text-stone-500">{action.desc}</p>
                     </div>
-                    <div className={`mt-auto flex items-center gap-1 text-[10px] font-black uppercase tracking-widest ${action.textColor}`}>
-                      Go to {action.title.split(' ')[1] || 'Page'} <ChevronRight className="size-3 transition-transform group-hover:translate-x-1" />
+                    <div className={`mt-auto flex items-center gap-1 text-[10px] font-black uppercase tracking-[0.2em] ${action.textColor}`}>
+                      {action.title.split(' ')[1] || 'Page'} <ChevronRight className="size-3 transition-transform duration-300 group-hover:translate-x-1" />
                     </div>
                   </div>
                 </Link>
@@ -219,21 +260,25 @@ export default function DashboardPage() {
           <div className="mb-4 flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
               <Music className="size-4 text-teal-500" />
-              <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400">Recent Lessons Sent</h2>
+              <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400">Recently Shared Lessons</h2>
             </div>
-            <Link href="/dashboard/students" className="text-[10px] font-black uppercase tracking-widest text-teal-600 hover:text-teal-700">View All</Link>
+            <Link href="/dashboard/students" className="text-[10px] font-black uppercase tracking-widest text-teal-600 hover:text-teal-700">View All Student Progress</Link>
           </div>
           
-          <div className="overflow-hidden rounded-[2rem] border border-stone-100 bg-white shadow-xl shadow-stone-200/40 sm:rounded-[2.5rem]">
+          <div className="overflow-hidden rounded-[2.5rem] border border-stone-100 bg-white shadow-xl shadow-stone-200/40 sm:rounded-[2.5rem]">
             {loadingRecent ? (
               <div className="flex flex-col items-center justify-center py-12">
                 <Loader2 className="size-6 animate-spin text-stone-200" />
               </div>
             ) : recentLessons.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
-                <p className="text-sm font-bold text-stone-400 italic">No lessons sent yet.</p>
-                <Button asChild variant="link" className="mt-2 text-teal-600">
-                  <Link href="/dashboard/library">Visit Library to send your first lesson</Link>
+              <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-stone-50 text-stone-200">
+                  <Music className="size-8" />
+                </div>
+                <p className="text-base font-bold text-stone-800">Your teaching history is empty.</p>
+                <p className="mt-1 text-sm text-stone-400">Once you send lessons from your library, they will appear here.</p>
+                <Button asChild variant="link" className="mt-4 text-teal-600 font-bold uppercase text-[10px] tracking-widest">
+                  <Link href="/dashboard/library">Open Repertoire Library</Link>
                 </Button>
               </div>
             ) : (
@@ -241,29 +286,29 @@ export default function DashboardPage() {
                 {recentLessons.map((lesson) => {
                   const student = students.find(s => s.id === lesson.student_id);
                   return (
-                    <Link key={lesson.id} href={`/dashboard/students?student=${lesson.student_id}`} className="group block px-6 py-5 transition-colors hover:bg-stone-50/50">
+                    <Link key={lesson.id} href={`/dashboard/students?student=${lesson.student_id}`} className="group block px-8 py-6 transition-all hover:bg-stone-50/50">
                       <div className="flex items-center justify-between gap-4">
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2">
-                            <span className="truncate text-base font-bold text-stone-800">
+                          <div className="flex items-center gap-3">
+                            <span className="truncate text-lg font-bold tracking-tight text-stone-800">
                               {lesson.title || "Untitled Lesson"}
                             </span>
                             {lesson.category && (
-                              <span className="rounded-full bg-teal-50 px-2 py-0.5 text-[9px] font-bold text-teal-600 uppercase tracking-wider">
+                              <span className="rounded-full bg-teal-50 px-2.5 py-1 text-[9px] font-black text-teal-600 uppercase tracking-widest">
                                 {lesson.category}
                               </span>
                             )}
                           </div>
-                          <p className="mt-0.5 truncate text-xs font-medium text-stone-400">
-                            Sent to <span className="text-stone-600 font-bold">{student?.fullName || student?.email || "Student"}</span>
+                          <p className="mt-1 truncate text-sm font-medium text-stone-400">
+                            Dedicated to <span className="text-stone-700 font-bold">{student?.fullName || student?.email || "Student"}</span>
                           </p>
                         </div>
-                        <div className="flex shrink-0 items-center gap-3">
-                          <span className="text-[10px] font-bold text-stone-300">
+                        <div className="flex shrink-0 items-center gap-5">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-stone-300">
                             {new Date(lesson.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                           </span>
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-50 text-stone-300 transition-all group-hover:bg-teal-600 group-hover:text-white">
-                            <ChevronRight className="size-4" />
+                          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-stone-50 text-stone-300 transition-all duration-300 group-hover:bg-teal-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-teal-900/20 group-hover:rotate-12">
+                            <ChevronRight className="size-5" />
                           </div>
                         </div>
                       </div>

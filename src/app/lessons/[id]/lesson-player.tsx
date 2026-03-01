@@ -74,7 +74,19 @@ export function LessonPlayer({ lessonId }: { lessonId: string }) {
     );
   }
 
-  if (!audioUrl) return null;
+  if (!audioUrl) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 rounded-[2rem] border border-stone-100 bg-stone-50/30 p-8 text-center shadow-inner">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-100 text-stone-300">
+          <Music className="size-6" />
+        </div>
+        <div className="space-y-1">
+          <p className="text-sm font-bold text-stone-500">No audio recording</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-stone-400">Available upon request from teacher</p>
+        </div>
+      </div>
+    );
+  }
 
   return <AudioPlayer audioUrl={audioUrl} />;
 }

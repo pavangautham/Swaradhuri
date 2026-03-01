@@ -34,7 +34,7 @@ export async function GET(
     }
 
     if (!lesson.audio_path) {
-      return apiResponse({ error: "No audio for this lesson" }, 404);
+      return apiResponse({ url: null });
     }
 
     const url = await getSignedUrl(supabase, lesson.audio_path);

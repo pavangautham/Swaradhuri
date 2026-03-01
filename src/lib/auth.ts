@@ -66,9 +66,9 @@ export async function isStudentRemoved(studentId: string): Promise<boolean> {
   const { createServerSupabaseClient } = await import("@/lib/supabase/server");
   const supabase = createServerSupabaseClient();
   const { data } = await supabase
-    .from("teacher_students")
+    .from("teacher_removed_students")
     .select("id")
     .eq("student_id", studentId)
     .limit(1);
-  return !data || data.length === 0;
+  return !!data && data.length > 0;
 }
