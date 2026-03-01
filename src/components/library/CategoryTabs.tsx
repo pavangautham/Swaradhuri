@@ -31,7 +31,7 @@ export function CategoryTabs({ categories, loading, selectedCategory, onSelect }
         <button
           key={c.name}
           onClick={() => onSelect(c.name)}
-          className={`h-9 rounded-full px-4 text-xs font-semibold uppercase tracking-wider transition-all sm:h-8 flex items-center gap-2 ${
+          className={`h-9 rounded-full px-3 text-[10px] font-semibold uppercase tracking-wider transition-all sm:h-8 sm:px-4 sm:text-xs flex items-center gap-2 ${
             selectedCategory === c.name 
               ? "bg-teal-600 shadow-md shadow-teal-900/10 text-white hover:bg-teal-700" 
               : "border border-stone-200 bg-white text-stone-600 hover:border-teal-200 hover:bg-teal-50/50 hover:text-teal-700"

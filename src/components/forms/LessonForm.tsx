@@ -173,26 +173,26 @@ export function LessonForm({
   }[variant];
 
   return (
-    <div className={`overflow-hidden rounded-3xl border ${themeClasses.border} ${themeClasses.bg} shadow-xl shadow-stone-200/40`}>
-      <div className={`border-b ${themeClasses.borderSubtle} ${themeClasses.bgSubtle} px-6 py-5`}>
+    <div className={`overflow-hidden rounded-[2rem] border ${themeClasses.border} ${themeClasses.bg} shadow-xl shadow-stone-200/40 sm:rounded-3xl`}>
+      <div className={`border-b ${themeClasses.borderSubtle} ${themeClasses.bgSubtle} px-4 py-4 sm:px-6 sm:py-5`}>
         <div className="flex items-center gap-3">
-          <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${themeClasses.accent} text-white shadow-lg`}>
-            {titleIcon || (initialData ? <Pencil className="size-4" /> : <Plus className="size-4" />)}
+          <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${themeClasses.accent} text-white shadow-lg sm:h-9 sm:w-9 sm:rounded-xl`}>
+            {titleIcon || (initialData ? <Pencil className="size-3.5 sm:size-4" /> : <Plus className="size-3.5 sm:size-4" />)}
           </div>
-          <p className="text-base font-bold text-stone-800">
+          <p className="text-sm font-bold text-stone-800 sm:text-base">
             {formTitle || (initialData ? "Edit Item" : "Add New Item")}
           </p>
         </div>
       </div>
       
-      <div className="p-6">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid gap-6 sm:grid-cols-2">
+      <div className="p-4 sm:p-6">
+        <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
             {showStudentSelect && (
               <div className="space-y-2">
-                <Label className="text-[11px] font-black uppercase tracking-widest text-stone-400 px-1">Student</Label>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-stone-400 px-1 sm:text-[11px]">Student</Label>
                 <Select value={selectedStudent} onValueChange={setSelectedStudent}>
-                  <SelectTrigger className={`h-12 border-stone-200 bg-stone-50/30 ${themeClasses.accentFocus}`}>
+                  <SelectTrigger className={`h-11 border-stone-200 bg-stone-50/30 sm:h-12 ${themeClasses.accentFocus}`}>
                     <SelectValue placeholder="Select a student" />
                   </SelectTrigger>
                   <SelectContent>
@@ -207,7 +207,7 @@ export function LessonForm({
             )}
 
             <div className="space-y-2">
-              <Label className="text-[11px] font-black uppercase tracking-widest text-stone-400 px-1">Category</Label>
+              <Label className="text-[10px] font-black uppercase tracking-widest text-stone-400 px-1 sm:text-[11px]">Category</Label>
               <div className="relative" ref={dropdownRef}>
                 <Input
                   value={category}
@@ -215,7 +215,7 @@ export function LessonForm({
                   onFocus={handleCategoryFocus}
                   onBlur={() => setTimeout(() => setDropdownOpen(false), 150)}
                   placeholder="e.g. Varnas, Krithis"
-                  className={`h-12 border-stone-200 bg-stone-50/30 transition-all ${themeClasses.accentFocus} focus:bg-white`}
+                  className={`h-11 border-stone-200 bg-stone-50/30 transition-all sm:h-12 ${themeClasses.accentFocus} focus:bg-white`}
                 />
                 <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-stone-300" />
                 {dropdownOpen && (
@@ -249,54 +249,54 @@ export function LessonForm({
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             <div className="space-y-2">
-              <Label className="text-[11px] font-black uppercase tracking-widest text-stone-400 px-1">Title <span className="text-stone-300 font-normal ml-1">(optional)</span></Label>
+              <Label className="text-[10px] font-black uppercase tracking-widest text-stone-400 px-1 sm:text-[11px]">Title <span className="text-stone-300 font-normal ml-1">(optional)</span></Label>
               <Input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Bhale Bhale Chandada"
-                className={`h-12 border-stone-200 bg-stone-50/30 transition-all ${themeClasses.accentFocus} focus:bg-white`}
+                className={`h-11 border-stone-200 bg-stone-50/30 transition-all sm:h-12 ${themeClasses.accentFocus} focus:bg-white`}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-[11px] font-black uppercase tracking-widest text-stone-400 px-1">Raaga</Label>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-stone-400 px-1 sm:text-[11px]">Raaga</Label>
                 <Input
                   value={raaga}
                   onChange={(e) => setRaaga(e.target.value)}
                   placeholder="e.g. Mohanam"
-                  className={`h-12 border-stone-200 bg-stone-50/30 transition-all ${themeClasses.accentFocus} focus:bg-white`}
+                  className={`h-11 border-stone-200 bg-stone-50/30 transition-all sm:h-12 ${themeClasses.accentFocus} focus:bg-white`}
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[11px] font-black uppercase tracking-widest text-stone-400 px-1">Thala</Label>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-stone-400 px-1 sm:text-[11px]">Thala</Label>
                 <Input
                   value={thala}
                   onChange={(e) => setThala(e.target.value)}
                   placeholder="e.g. Adi"
-                  className={`h-12 border-stone-200 bg-stone-50/30 transition-all ${themeClasses.accentFocus} focus:bg-white`}
+                  className={`h-11 border-stone-200 bg-stone-50/30 transition-all sm:h-12 ${themeClasses.accentFocus} focus:bg-white`}
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label className="text-[11px] font-black uppercase tracking-widest text-stone-400 px-1">Lyrics</Label>
+            <Label className="text-[10px] font-black uppercase tracking-widest text-stone-400 px-1 sm:text-[11px]">Lyrics</Label>
             <Textarea
               value={lyrics}
               onChange={(e) => setLyrics(e.target.value)}
               placeholder="Paste lyrics…"
-              className={`min-h-[120px] resize-none border-stone-200 bg-stone-50/30 transition-all ${themeClasses.accentFocus} focus:bg-white p-4`}
+              className={`min-h-[100px] resize-none border-stone-200 bg-stone-50/30 transition-all ${themeClasses.accentFocus} focus:bg-white p-3 text-sm sm:min-h-[120px] sm:p-4 sm:text-base`}
               required
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <label className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed py-4 transition-all active:scale-95 ${imageFiles.length > 0 ? `${themeClasses.accentBorder} ${themeClasses.accentBg}` : "border-stone-200 bg-stone-50/30 hover:border-stone-300"}`}>
-                <Upload className={`size-5 ${imageFiles.length > 0 ? themeClasses.accentText : "text-stone-400"}`} />
-                <span className={`text-[10px] font-black uppercase tracking-widest text-center px-2 ${imageFiles.length > 0 ? themeClasses.accentText : "text-stone-500"}`}>
+              <label className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed py-3 transition-all active:scale-95 sm:py-4 ${imageFiles.length > 0 ? `${themeClasses.accentBorder} ${themeClasses.accentBg}` : "border-stone-200 bg-stone-50/30 hover:border-stone-300"}`}>
+                <Upload className={`size-4 sm:size-5 ${imageFiles.length > 0 ? themeClasses.accentText : "text-stone-400"}`} />
+                <span className={`text-[9px] font-black uppercase tracking-widest text-center px-2 sm:text-[10px] ${imageFiles.length > 0 ? themeClasses.accentText : "text-stone-500"}`}>
                   {imageFiles.length > 0 ? `${imageFiles.length} Images Selected` : initialData ? "Replace Images" : "Choose Images"}
                 </span>
                 <Input
@@ -324,9 +324,9 @@ export function LessonForm({
             </div>
 
             <div className="space-y-2">
-              <label className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed py-4 transition-all active:scale-95 ${audioFile ? `${themeClasses.accentBorder} ${themeClasses.accentBg}` : "border-stone-200 bg-stone-50/30 hover:border-stone-300"}`}>
-                <Music className={`size-5 ${audioFile ? themeClasses.accentText : "text-stone-400"}`} />
-                <span className={`text-[10px] font-black uppercase tracking-widest text-center px-2 ${audioFile ? themeClasses.accentText : "text-stone-500"}`}>
+              <label className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed py-3 transition-all active:scale-95 sm:py-4 ${audioFile ? `${themeClasses.accentBorder} ${themeClasses.accentBg}` : "border-stone-200 bg-stone-50/30 hover:border-stone-300"}`}>
+                <Music className={`size-4 sm:size-5 ${audioFile ? themeClasses.accentText : "text-stone-400"}`} />
+                <span className={`text-[9px] font-black uppercase tracking-widest text-center px-2 sm:text-[10px] ${audioFile ? themeClasses.accentText : "text-stone-500"}`}>
                   {audioFile ? "Audio Selected" : initialData ? "Replace Audio" : "Choose Recording"}
                 </span>
                 <Input
@@ -351,15 +351,15 @@ export function LessonForm({
             </div>
           </div>
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-1 sm:pt-2">
             <Button 
               type="submit" 
               disabled={submitting} 
-              className={`h-14 flex-1 rounded-2xl ${themeClasses.accent} ${themeClasses.accentHover} text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-stone-200/50 transition-all active:scale-[0.98]`}
+              className={`h-12 flex-1 rounded-2xl ${themeClasses.accent} ${themeClasses.accentHover} text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-stone-200/50 transition-all active:scale-[0.98] sm:h-14 sm:text-xs`}
             >
               {submitting ? (
                 <div className="flex items-center gap-2">
-                  <Loader2 className="size-5 animate-spin" />
+                  <Loader2 className="size-4 animate-spin sm:size-5" />
                   <span>Saving…</span>
                 </div>
               ) : (
@@ -372,7 +372,7 @@ export function LessonForm({
                 variant="ghost" 
                 onClick={onCancel}
                 disabled={submitting}
-                className="h-14 px-6 rounded-2xl font-bold text-stone-400 hover:bg-stone-100"
+                className="h-12 px-5 rounded-2xl font-bold text-stone-400 hover:bg-stone-100 sm:h-14 sm:px-6"
               >
                 Cancel
               </Button>

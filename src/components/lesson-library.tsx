@@ -43,6 +43,7 @@ export function LessonLibrary({ variant = "card" }: LessonLibraryProps) {
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [editingItem, setEditingItem] = useState<LibraryItem | null>(null);
+  const [isAdding, setIsAdding] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<LibraryItem | null>(null);
   const [sendTarget, setSendTarget] = useState<LibraryItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,30 +88,48 @@ export function LessonLibrary({ variant = "card" }: LessonLibraryProps) {
           </p>
         </div>
       </div>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={refresh}
-        disabled={itemsLoading || categoriesLoading}
-        className="h-10 min-h-10 w-full shrink-0 gap-1.5 border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900 sm:w-auto"
-      >
-        {(itemsLoading || categoriesLoading) ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCw className="size-3.5" />}
-        Refresh
-      </Button>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <Button
+          onClick={() => setIsAdding(true)}
+          className="h-10 shrink-0 gap-1.5 rounded-xl bg-teal-600 px-5 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-teal-900/10 hover:bg-teal-700 active:scale-95"
+        >
+          <Plus className="size-4" />
+          Add to Library
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={refresh}
+          disabled={itemsLoading || categoriesLoading}
+          className="h-10 min-h-10 shrink-0 gap-1.5 border-stone-200 bg-white text-stone-600 hover:bg-stone-50 hover:text-stone-900"
+        >
+          {(itemsLoading || categoriesLoading) ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCw className="size-3.5" />}
+          Refresh
+        </Button>
+      </div>
     </div>
   );
 
   const mainContent = (
     <div className="space-y-10">
-      <LessonForm 
-        categories={categories} 
-        onSubmit={addItem} 
-        defaultCategory={category}
-        formTitle="Add to Library"
-        submitLabel="Add to library"
-        titleIcon={<Plus className="size-4" />}
-      />
+      {isAdding && (
+        <div className="animate-in fade-in slide-in-from-top-4 duration-500">
+          <LessonForm 
+            categories={categories} 
+            onSubmit={async (fd) => {
+              await addItem(fd);
+              setIsAdding(false);
+              toast.success("Added to library");
+            }} 
+            onCancel={() => setIsAdding(false)}
+            defaultCategory={category}
+            formTitle="Add to Library"
+            submitLabel="Add to library"
+            titleIcon={<Plus className="size-4" />}
+          />
+        </div>
+      )}
       
       <div className="space-y-6">
         <div className="px-2">
@@ -123,8 +142,8 @@ export function LessonLibrary({ variant = "card" }: LessonLibraryProps) {
         </div>
 
         {category && (
-          <div className={`${isPage ? "rounded-[2.5rem] border border-stone-100 bg-white/80 p-6 shadow-xl shadow-stone-200/40 sm:p-10" : ""}`}>
-            <div className="mb-8 flex flex-wrap items-center gap-4 border-b border-stone-100 pb-6">
+          <div className={`${isPage ? "rounded-[2rem] border border-stone-100 bg-white/80 p-4 shadow-xl shadow-stone-200/40 sm:rounded-[2.5rem] sm:p-10" : ""}`}>
+            <div className="mb-6 flex flex-wrap items-center gap-4 border-b border-stone-100 pb-6 sm:mb-8">
               {renaming ? (
                 <div className="flex items-center gap-3">
                   <Input

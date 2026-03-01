@@ -429,196 +429,267 @@ function StudentListContent() {
                                 : lessons.filter((l) => normalized(l) === lessonCategoryFilter);
                               const filtered = byCategory.filter((l) => lessonMatchesSearch(l, lessonSearchQuery, { includeCategory: true }));
                               return (
-                                <div className="space-y-10">
+                                <div className="space-y-8">
                                   <div className="space-y-6">
+                                    <div className="px-1">
+                                      <div className="flex flex-wrap items-center gap-2.5">
+                                        <button
+                                          onClick={() => setLessonCategoryFilter("")}
+                                          className={`h-9 rounded-full px-4 text-[10px] font-semibold uppercase tracking-wider transition-all sm:h-8 sm:px-5 sm:text-xs flex items-center gap-2 ${
+                                            (!lessonCategoryFilter || lessonCategoryFilter === "All") 
+                                              ? "bg-teal-600 shadow-md shadow-teal-900/10 text-white hover:bg-teal-700" 
+                                              : "border border-stone-200 bg-white text-stone-600 hover:border-teal-200 hover:bg-teal-50/50 hover:text-teal-700"
+                                          }`}
+                                        >
+                                          All
+                                          <span className={`rounded-full px-1.5 py-0.5 text-[10px] ${
+                                            (!lessonCategoryFilter || lessonCategoryFilter === "All") ? "bg-white/20 text-white" : "bg-stone-100 text-stone-500"
+                                          }`}>
+                                            {lessons.length}
+                                          </span>
+                                        </button>
+                                        {categories.map((cat) => {
+                                          const count = lessons.filter(l => normalized(l) === cat).length;
+                                          return (
+                                            <button
+                                              key={cat}
+                                              onClick={() => setLessonCategoryFilter(cat)}
+                                              className={`h-9 rounded-full px-4 text-[10px] font-semibold uppercase tracking-wider transition-all sm:h-8 sm:px-5 sm:text-xs flex items-center gap-2 ${
+                                                lessonCategoryFilter === cat 
+                                                  ? "bg-teal-600 shadow-md shadow-teal-900/10 text-white hover:bg-teal-700" 
+                                                  : "border border-stone-200 bg-white text-stone-600 hover:border-teal-200 hover:bg-teal-50/50 hover:text-teal-700"
+                                              }`}
+                                            >
+                                              {cat}
+                                              <span className={`rounded-full px-1.5 py-0.5 text-[10px] ${
+                                                lessonCategoryFilter === cat ? "bg-white/20 text-white" : "bg-stone-100 text-stone-500"
+                                              }`}>
+                                                {count}
+                                              </span>
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+
                                     <div className="relative">
-                                      <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-stone-400" />
+                                      <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-stone-300" />
                                       <Input
                                         type="search"
-                                        placeholder={`Search through ${lessons.length} lessons...`}
+                                        placeholder={`Search in ${lessonCategoryFilter || "all"} lessons...`}
                                         value={lessonSearchQuery}
                                         onChange={(e) => setLessonSearchQuery(e.target.value)}
-                                        className="h-12 rounded-2xl border-stone-200 bg-white pl-11 shadow-sm transition-all focus:border-teal-400 focus:ring-4 focus:ring-teal-400/10 placeholder:text-stone-400"
+                                        className="h-12 border-stone-200 bg-white pl-11 shadow-sm transition-all focus:border-teal-400 focus:ring-4 focus:ring-teal-400/10 placeholder:text-stone-400"
                                         aria-label="Search lessons"
                                       />
                                     </div>
-                                    <div className="flex flex-wrap items-center gap-2 px-1">
-                                      <span className="mr-2 text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Filter:</span>
-                                      <button
-                                        onClick={() => setLessonCategoryFilter("")}
-                                        className={`h-8 rounded-full px-5 text-[10px] font-black uppercase tracking-wider transition-all ${
-                                          (!lessonCategoryFilter || lessonCategoryFilter === "All") 
-                                            ? "bg-stone-900 text-white shadow-lg shadow-stone-200" 
-                                            : "bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-900 border border-stone-200"
-                                        }`}
-                                      >
-                                        All
-                                      </button>
-                                      {categories.map((cat) => (
-                                        <button
-                                          key={cat}
-                                          onClick={() => setLessonCategoryFilter(cat)}
-                                          className={`h-8 rounded-full px-5 text-[10px] font-black uppercase tracking-wider transition-all ${
-                                            lessonCategoryFilter === cat 
-                                              ? "bg-teal-600 text-white shadow-lg shadow-teal-900/10" 
-                                              : "bg-white text-stone-500 hover:bg-teal-50 hover:text-teal-700 border border-stone-200"
-                                          }`}
-                                        >
-                                          {cat}
-                                        </button>
-                                      ))}
-                                    </div>
                                   </div>
 
-                                  <ul className="grid gap-8">
-                                    {filtered.map((lesson) => (
-                                      <li
-                                        key={lesson.id}
-                                        className={`relative transition-all duration-300 ${
-                                          editingLessonId === lesson.id 
-                                            ? "rounded-[2.5rem] bg-white p-1" 
-                                            : "group overflow-hidden rounded-[2.5rem] border border-stone-100 bg-white p-6 shadow-sm hover:border-teal-100 hover:shadow-xl hover:shadow-stone-200/40 sm:p-8"
-                                        }`}
-                                      >
-                                        {editingLessonId === lesson.id ? (
-                                          <LessonForm
-                                            initialData={lesson}
-                                            categories={availableCategories}
-                                            onSubmit={handleUpdateLesson}
-                                            onCancel={() => setEditingLessonId(null)}
-                                            variant="amber"
-                                            formTitle="Edit Lesson"
-                                            submitLabel="Save Changes"
-                                          />
-                                        ) : (
-                                          <>
-                                            <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
-                                              <div className="min-w-0 flex-1">
-                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">
-                                                  <span className="rounded-full bg-stone-100 px-2 py-0.5">{normalized(lesson)}</span>
-                                                  <span className="text-stone-200">•</span>
-                                                  <span>{new Date(lesson.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                  <div className="space-y-6">
+                                    <div className="flex items-center gap-4 px-2">
+                                      <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-stone-800">
+                                        {lessonCategoryFilter || "All Lessons"}
+                                      </h3>
+                                      <div className="h-px flex-1 bg-stone-100" />
+                                    </div>
+
+                                    <ul className="grid gap-5">
+                                      {filtered.map((lesson) => (
+                                        <li
+                                          key={lesson.id}
+                                          className={`group overflow-hidden rounded-[2rem] border transition-all duration-500 sm:rounded-[2.5rem] ${
+                                            editingLessonId === lesson.id 
+                                              ? "border-amber-200 bg-white shadow-2xl shadow-amber-900/10 ring-1 ring-amber-50" 
+                                              : "border-stone-100 bg-white hover:border-stone-200 hover:shadow-xl hover:shadow-stone-200/50"
+                                          }`}
+                                        >
+                                          {editingLessonId === lesson.id ? (
+                                            <div className="p-1">
+                                              <LessonForm
+                                                initialData={lesson}
+                                                categories={availableCategories}
+                                                onSubmit={handleUpdateLesson}
+                                                onCancel={() => setEditingLessonId(null)}
+                                                variant="amber"
+                                                formTitle="Edit Lesson"
+                                                submitLabel="Save Changes"
+                                              />
+                                            </div>
+                                          ) : (
+                                            <>
+                                              <div className="flex items-center gap-2 px-3 py-4 sm:gap-4 sm:px-6 sm:py-5">
+                                                <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-5">
+                                                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-600 transition-all duration-500 group-hover:bg-teal-100 sm:h-14 sm:w-14 sm:rounded-2xl">
+                                                    <Music2 className="size-5 sm:size-7" />
+                                                  </div>
+                                                  <div className="min-w-0 flex-1">
+                                                    <p className="truncate text-sm font-bold text-stone-900 sm:text-lg">
+                                                      {[lesson.title, lesson.raaga, lesson.thala]
+                                                        .filter(Boolean)
+                                                        .join(" · ") || "Untitled Lesson"}
+                                                    </p>
+                                                    <div className="mt-0.5 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em] text-stone-400 sm:text-[10px] sm:tracking-[0.2em]">
+                                                      <span className="rounded-full bg-stone-50 px-2 py-0.5">{normalized(lesson)}</span>
+                                                      <span className="text-stone-200">•</span>
+                                                      <span>{new Date(lesson.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                                                    </div>
+                                                  </div>
                                                 </div>
-                                                {(lesson.title || lesson.raaga || lesson.thala) && (
-                                                  <h4 className="mt-2 text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
-                                                    {[lesson.title, lesson.raaga, lesson.thala]
-                                                      .filter(Boolean)
-                                                      .join(" · ")}
-                                                  </h4>
-                                                )}
-                                              </div>
-                                              <div className="flex shrink-0 items-center gap-1.5 pt-1">
-                                                <DropdownMenu modal={false}>
-                                                  <DropdownMenuTrigger asChild>
+
+                                                <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+                                                  <DropdownMenu modal={false}>
+                                                    <DropdownMenuTrigger asChild>
+                                                      <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className="h-10 rounded-xl bg-teal-50 px-3 text-teal-600 transition-all hover:bg-teal-600 hover:text-white hover:shadow-lg hover:shadow-teal-900/10 active:scale-95 sm:h-11 sm:rounded-2xl sm:px-5"
+                                                      >
+                                                        <UserPlus className="size-4 sm:mr-2" />
+                                                        <span className="hidden text-[10px] font-black uppercase tracking-widest sm:inline">Add to another</span>
+                                                        <span className="text-[10px] font-black uppercase tracking-widest sm:hidden">Copy</span>
+                                                      </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end" className="min-w-[200px] rounded-2xl p-2 shadow-2xl ring-1 ring-black/5">
+                                                      <DropdownMenuLabel className="px-3 py-2 text-[10px] font-black uppercase tracking-[0.15em] text-stone-400">Add to student</DropdownMenuLabel>
+                                                      <div className="my-1 h-px bg-stone-50" />
+                                                      {students
+                                                        .filter((st) => st.id !== s.id)
+                                                        .map((st) => {
+                                                          const isCopying =
+                                                            copyingTo?.lessonId === lesson.id && copyingTo?.studentId === st.id;
+                                                          const dName = st.fullName || st.email || st.id;
+                                                          return (
+                                                            <DropdownMenuItem
+                                                              key={st.id}
+                                                              onClick={() => copyLessonToStudent(lesson.id, st.id)}
+                                                              disabled={!!copyingTo}
+                                                              className="rounded-xl px-3 py-2.5 text-sm font-bold text-stone-700 focus:bg-teal-50 focus:text-teal-700 cursor-pointer"
+                                                            >
+                                                              {isCopying ? (
+                                                                <Loader2 className="mr-2 size-4 animate-spin" />
+                                                              ) : null}
+                                                              {dName}
+                                                            </DropdownMenuItem>
+                                                          );
+                                                        })}
+                                                      {students.filter((st) => st.id !== s.id).length === 0 && (
+                                                        <DropdownMenuItem disabled className="text-stone-400 italic">
+                                                          No other students
+                                                        </DropdownMenuItem>
+                                                      )}
+                                                    </DropdownMenuContent>
+                                                  </DropdownMenu>
+
+                                                  <div className="hidden shrink-0 items-center gap-1 sm:flex">
+                                                    <div className="h-6 w-px bg-stone-100 mx-1" />
                                                     <Button
                                                       variant="ghost"
                                                       size="sm"
-                                                      className="h-10 px-4 rounded-xl text-teal-600 transition-all hover:bg-teal-50 hover:text-teal-700 active:scale-95"
+                                                      onClick={() => setEditingLessonId(lesson.id)}
+                                                      className="h-10 w-10 rounded-full p-0 text-stone-200 hover:bg-stone-50 hover:text-stone-400 transition-colors"
+                                                      title="Edit lesson"
                                                     >
-                                                      <UserPlus className="size-4 sm:mr-2" />
-                                                      <span className="hidden text-xs font-bold sm:inline">Add to another</span>
+                                                      <Pencil className="size-4" />
                                                     </Button>
-                                                  </DropdownMenuTrigger>
-                                                  <DropdownMenuContent align="end" className="min-w-[200px] rounded-2xl p-2 shadow-2xl ring-1 ring-black/5">
-                                                    <DropdownMenuLabel className="px-3 py-2 text-[10px] font-black uppercase tracking-[0.15em] text-stone-400">Add to student</DropdownMenuLabel>
-                                                    <div className="my-1 h-px bg-stone-50" />
-                                                    {students
-                                                      .filter((st) => st.id !== s.id)
-                                                      .map((st) => {
-                                                        const isCopying =
-                                                          copyingTo?.lessonId === lesson.id && copyingTo?.studentId === st.id;
-                                                        const displayName = st.fullName || st.email || st.id;
-                                                        return (
-                                                          <DropdownMenuItem
-                                                            key={st.id}
-                                                            onClick={() => copyLessonToStudent(lesson.id, st.id)}
-                                                            disabled={!!copyingTo}
-                                                            className="rounded-xl px-3 py-2.5 text-sm font-bold text-stone-700 focus:bg-teal-50 focus:text-teal-700 cursor-pointer"
-                                                          >
-                                                            {isCopying ? (
-                                                              <Loader2 className="mr-2 size-4 animate-spin" />
-                                                            ) : null}
-                                                            {displayName}
-                                                          </DropdownMenuItem>
-                                                        );
-                                                      })}
-                                                    {students.filter((st) => st.id !== s.id).length === 0 && (
-                                                      <DropdownMenuItem disabled className="text-stone-400 italic">
-                                                        No other students
-                                                      </DropdownMenuItem>
-                                                    )}
-                                                  </DropdownMenuContent>
-                                                </DropdownMenu>
-                                                <div className="mx-1 h-5 w-px bg-stone-100 hidden sm:block" />
-                                                <Button
-                                                  variant="ghost"
-                                                  size="sm"
-                                                  onClick={() => setEditingLessonId(lesson.id)}
-                                                  className="h-10 w-10 rounded-xl text-stone-400 transition-all hover:bg-stone-50 hover:text-stone-600 active:scale-90"
-                                                  title="Edit lesson"
-                                                >
-                                                  <Pencil className="size-4" />
-                                                </Button>
-                                                <Button
-                                                  variant="ghost"
-                                                  size="sm"
-                                                  onClick={() =>
-                                                    setDeleteLessonTarget({
-                                                      lessonId: lesson.id,
-                                                      studentId: s.id,
-                                                      title: lesson.title ?? ([lesson.raaga, lesson.thala].filter(Boolean).join(" · ") || undefined),
-                                                    })
-                                                  }
-                                                  className="h-10 w-10 rounded-xl text-stone-300 transition-all hover:bg-red-50 hover:text-red-500 active:scale-90"
-                                                  title="Delete lesson"
-                                                >
-                                                  <Trash2 className="size-4" />
-                                                </Button>
+                                                    <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() =>
+                                                        setDeleteLessonTarget({
+                                                          lessonId: lesson.id,
+                                                          studentId: s.id,
+                                                          title: lesson.title ?? ([lesson.raaga, lesson.thala].filter(Boolean).join(" · ") || undefined),
+                                                        })
+                                                      }
+                                                      className="h-10 w-10 rounded-full p-0 text-stone-100 hover:bg-red-50 hover:text-red-400 transition-colors"
+                                                      title="Delete lesson"
+                                                    >
+                                                      <Trash2 className="size-4" />
+                                                    </Button>
+                                                  </div>
+                                                </div>
                                               </div>
-                                            </div>
 
-                                            <div className="space-y-8">
-                                              {lesson.lyrics?.trim() && (
-                                                <section className="overflow-hidden rounded-3xl border border-stone-100 bg-stone-50/20">
-                                                  <div className="flex items-center gap-2 border-b border-stone-100 bg-stone-100/30 px-5 py-3">
-                                                    <FileText className="size-4 text-teal-600" />
-                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500">Lyrics</p>
+                                              <div className="border-t border-stone-100 bg-stone-50/30 p-4 sm:p-8">
+                                                <div className="space-y-6">
+                                                  <div className="flex items-center justify-between sm:hidden">
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Actions</p>
+                                                    <div className="flex gap-2">
+                                                      <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="h-9 rounded-xl border-stone-200 bg-white px-4 text-[10px] font-bold uppercase tracking-widest text-stone-600 transition-all hover:bg-stone-50"
+                                                        onClick={() => setEditingLessonId(lesson.id)}
+                                                      >
+                                                        <Pencil className="mr-2 size-3.5" />
+                                                        Edit
+                                                      </Button>
+                                                      <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="h-9 rounded-xl border-red-100 bg-white px-4 text-[10px] font-bold uppercase tracking-widest text-red-500 transition-all hover:bg-red-50 hover:border-red-200"
+                                                        onClick={() =>
+                                                          setDeleteLessonTarget({
+                                                            lessonId: lesson.id,
+                                                            studentId: s.id,
+                                                            title: lesson.title ?? ([lesson.raaga, lesson.thala].filter(Boolean).join(" · ") || undefined),
+                                                          })
+                                                        }
+                                                      >
+                                                        <Trash2 className="mr-2 size-3.5" />
+                                                        Delete
+                                                      </Button>
+                                                    </div>
                                                   </div>
-                                                  <div className="max-h-60 overflow-auto px-6 py-6 font-serif text-base leading-relaxed text-stone-700">
-                                                    {lesson.lyrics}
-                                                  </div>
-                                                </section>
-                                              )}
 
-                                              {lesson.lyrics_image_paths?.length ? (
-                                                <section className="overflow-hidden rounded-3xl border border-stone-100 bg-stone-50/20">
-                                                  <div className="flex items-center gap-2 border-b border-stone-100 bg-stone-100/30 px-5 py-3">
-                                                    <FileImage className="size-4 text-teal-600" />
-                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500">Sheet Music / Images</p>
-                                                  </div>
-                                                  <div className="p-2">
-                                                    <LyricsImages lessonId={lesson.id} />
-                                                  </div>
-                                                </section>
-                                              ) : null}
+                                                  {lesson.lyrics?.trim() && (
+                                                    <section className="overflow-hidden rounded-2xl border border-stone-100 bg-white shadow-sm">
+                                                      <div className="flex items-center gap-2 border-b border-stone-100 bg-stone-50/50 px-4 py-2.5">
+                                                        <FileText className="size-3.5 text-teal-600" />
+                                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500">Lyrics</p>
+                                                      </div>
+                                                      <div className="max-h-60 overflow-auto px-6 py-6 font-serif text-base leading-relaxed text-stone-700">
+                                                        {lesson.lyrics}
+                                                      </div>
+                                                    </section>
+                                                  )}
 
-                                              {lesson.audio_path?.trim() && (
-                                                <section className="overflow-visible rounded-3xl border border-stone-100 bg-stone-50/20">
-                                                  <div className="flex items-center gap-2 border-b border-stone-100 bg-stone-100/30 px-5 py-3">
-                                                    <Music2 className="size-4 text-teal-600" />
-                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500">Audio Recording</p>
-                                                  </div>
-                                                  <div className="p-5 sm:p-8">
-                                                    <LessonPlayer lessonId={lesson.id} />
-                                                  </div>
-                                                </section>
-                                              )}
-                                            </div>
-                                          </>
-                                        )}
-                                      </li>
-                                    ))}
-                                  </ul>
+                                                  {lesson.lyrics_image_paths?.length ? (
+                                                    <section className="overflow-hidden rounded-2xl border border-stone-100 bg-white shadow-sm">
+                                                      <div className="flex items-center gap-2 border-b border-stone-100 bg-stone-50/50 px-4 py-2.5">
+                                                        <FileImage className="size-3.5 text-teal-600" />
+                                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500">Sheet Music / Images</p>
+                                                      </div>
+                                                      <div className="p-4">
+                                                        <LyricsImages lessonId={lesson.id} />
+                                                      </div>
+                                                    </section>
+                                                  ) : null}
+
+                                                  {lesson.audio_path?.trim() && (
+                                                    <section className="overflow-visible rounded-2xl border border-stone-100 bg-white shadow-sm">
+                                                      <div className="flex items-center gap-2 border-b border-stone-100 bg-stone-50/50 px-4 py-2.5">
+                                                        <Music2 className="size-3.5 text-teal-600" />
+                                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500">Audio Recording</p>
+                                                      </div>
+                                                      <div className="p-4 sm:p-6">
+                                                        <LessonPlayer lessonId={lesson.id} />
+                                                      </div>
+                                                    </section>
+                                                  )}
+                                                </div>
+                                              </div>
+                                            </>
+                                          )}
+                                        </li>
+                                      ))}
+                                      {filtered.length === 0 && lessonSearchQuery && (
+                                        <div className="rounded-[2rem] border border-dashed border-stone-200 bg-stone-50/50 py-16 px-8 text-center">
+                                          <p className="text-sm font-bold text-stone-400 italic">No matches found for your search.</p>
+                                        </div>
+                                      )}
+                                    </ul>
+                                  </div>
                                 </div>
                               );
                             })()}

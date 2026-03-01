@@ -224,7 +224,7 @@ export default function DashboardPage() {
             <Link href="/dashboard/students" className="text-[10px] font-black uppercase tracking-widest text-teal-600 hover:text-teal-700">View All</Link>
           </div>
           
-          <div className="overflow-hidden rounded-[2.5rem] border border-stone-100 bg-white shadow-xl shadow-stone-200/40">
+          <div className="overflow-hidden rounded-[2rem] border border-stone-100 bg-white shadow-xl shadow-stone-200/40 sm:rounded-[2.5rem]">
             {loadingRecent ? (
               <div className="flex flex-col items-center justify-center py-12">
                 <Loader2 className="size-6 animate-spin text-stone-200" />
