@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { AudioPlayer } from "@/components/audio-player";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Music, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function LibraryAudioPlayer({ itemId }: { itemId: string }) {

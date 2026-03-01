@@ -25,12 +25,11 @@ export function StudentLessonsView({ groups }: { groups: CategoryGroup[] }) {
   const [category, setCategory] = useState<string>(() => groups[0]?.category ?? "");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const currentGroup = groups.find((g) => g.category === category) ?? groups[0];
-  const allLessons = currentGroup?.lessons ?? [];
-  const lessons = useMemo(
-    () => allLessons.filter((l) => lessonMatchesSearch(l, searchQuery)),
-    [allLessons, searchQuery]
-  );
+  const lessons = useMemo(() => {
+    const currentGroup = groups.find((g) => g.category === category) ?? groups[0];
+    const allLessons = currentGroup?.lessons ?? [];
+    return allLessons.filter((l) => lessonMatchesSearch(l, searchQuery));
+  }, [groups, category, searchQuery]);
 
   if (groups.length === 0) {
     return (

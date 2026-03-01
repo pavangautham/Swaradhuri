@@ -101,6 +101,7 @@ export function LyricsImages({ lessonId }: { lessonId: string }) {
               onClick={() => setPreviewUrl(url)}
               className="relative block w-full overflow-hidden bg-stone-50/20 focus:outline-none"
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={url}
                 alt={`Lyrics page ${i + 1}`}
@@ -147,6 +148,7 @@ export function LyricsImages({ lessonId }: { lessonId: string }) {
           
           <div className="relative h-full w-full p-4 sm:p-10" onClick={(e) => e.stopPropagation()}>
             <div className="flex h-full w-full items-center justify-center overflow-auto">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={previewUrl}
                 alt="Preview"

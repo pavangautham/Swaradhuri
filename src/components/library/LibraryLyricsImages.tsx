@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, ZoomIn, ImageIcon, Loader2 } from "lucide-react";
+import { X, ZoomIn, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -98,6 +98,7 @@ export function LibraryLyricsImages({ itemId }: { itemId: string }) {
               onClick={() => setPreviewUrl(u)}
               className="relative block w-full overflow-hidden bg-stone-50/20 focus:outline-none"
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={u} 
                 alt={`Page ${i + 1}`} 
@@ -130,6 +131,7 @@ export function LibraryLyricsImages({ itemId }: { itemId: string }) {
           
           <div className="relative h-full w-full p-4 sm:p-10" onClick={(e) => e.stopPropagation()}>
             <div className="flex h-full w-full items-center justify-center overflow-auto">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={previewUrl}
                 alt="Preview"

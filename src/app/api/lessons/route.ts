@@ -4,7 +4,6 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { apiResponse, handleApiError, parseFormData } from "@/lib/api-utils";
 import { MAX_AUDIO_SIZE, MAX_IMAGE_SIZE, ALLOWED_IMAGE_TYPES, ALLOWED_AUDIO_EXTENSIONS } from "@/lib/constants";
 import { createLesson, handleLessonUploads } from "@/lib/services/lessons";
-import { createLibraryItem, handleLibraryUploads } from "@/lib/services/library";
 
 export async function GET(request: NextRequest) {
   try {

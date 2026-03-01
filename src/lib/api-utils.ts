@@ -25,7 +25,7 @@ export function handleApiError(e: unknown) {
 
   // Handle Supabase/Postgrest error objects
   if (e && typeof e === 'object' && 'message' in e) {
-    return apiError(String((e as any).message), 500);
+    return apiError(String((e as { message: unknown }).message), 500);
   }
   
   return apiError(JSON.stringify(e) || "An unexpected error occurred", 500);

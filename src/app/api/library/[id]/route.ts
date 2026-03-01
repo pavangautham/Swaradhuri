@@ -6,8 +6,7 @@ import {
   MAX_AUDIO_SIZE, 
   MAX_IMAGE_SIZE, 
   ALLOWED_IMAGE_TYPES, 
-  ALLOWED_AUDIO_EXTENSIONS,
-  STORAGE_BUCKET
+  ALLOWED_AUDIO_EXTENSIONS
 } from "@/lib/constants";
 import { 
   updateLibraryItem, 

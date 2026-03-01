@@ -6,7 +6,6 @@ import { UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { Menu, X, LayoutDashboard, Users, BookMarked, Music, Info } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
 
 export function AppNav() {
   const pathname = usePathname();

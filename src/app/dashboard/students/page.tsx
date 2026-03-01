@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, Suspense } from "react";
+import { useCallback, useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -55,7 +55,6 @@ function StudentListContent() {
   const [lessonsByStudent, setLessonsByStudent] = useState<Record<string, Lesson[]>>({});
   const [loadingLessons, setLoadingLessons] = useState<string | null>(null);
   const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
-  const [savingEdit, setSavingEdit] = useState(false);
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [restoringId, setRestoringId] = useState<string | null>(null);
   const [copyingTo, setCopyingTo] = useState<{ lessonId: string; studentId: string } | null>(null);

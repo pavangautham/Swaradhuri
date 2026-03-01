@@ -10,8 +10,7 @@ import {
   Pencil, 
   X, 
   FileImage, 
-  CheckCircle2,
-  Users
+  CheckCircle2
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -56,7 +55,9 @@ export function LessonForm({
   titleIcon,
   formTitle
 }: LessonFormProps) {
-  const [selectedStudent, setSelectedStudent] = useState(('student_id' in (initialData || {}) ? (initialData as any)?.student_id : "") || "");
+  const [selectedStudent, setSelectedStudent] = useState(
+    (initialData && 'student_id' in initialData ? String(initialData.student_id) : "") || ""
+  );
   const [category, setCategory] = useState(initialData?.category || defaultCategory || "");
   const [isTypingCategory, setIsTypingCategory] = useState(false);
   const [title, setTitle] = useState(initialData?.title || "");
@@ -137,8 +138,6 @@ export function LessonForm({
       setSubmitting(false);
     }
   };
-
-  const isAmber = variant === "amber";
   
   // Map variant to specific Tailwind classes to avoid dynamic interpolation issues with Tailwind 4 scanner
   const themeClasses = {

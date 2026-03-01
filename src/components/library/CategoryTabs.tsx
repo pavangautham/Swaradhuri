@@ -1,7 +1,6 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Category } from "@/types/music";
 
 interface CategoryTabsProps {
