@@ -60,7 +60,7 @@ export default async function HomePage() {
             Sumadhwa Swaradhuri
           </h1>
           <p className="mx-auto max-w-[280px] text-sm font-medium leading-relaxed text-stone-600 sm:max-w-md sm:text-lg lg:text-xl">
-            A dedicated space to learn, practice, and master Carnatic music under your Guru's guidance.
+            A dedicated space to learn, practice, and master Carnatic music under your Guru&apos;s guidance.
           </p>
         </div>
 

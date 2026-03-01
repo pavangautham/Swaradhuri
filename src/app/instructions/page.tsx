@@ -43,7 +43,7 @@ export default async function InstructionsPage() {
                 </p>
                 <ul className="list-disc pl-5 space-y-2 text-stone-600 marker:text-teal-500">
                   <li><strong>Lessons tab:</strong> Find all your repertoire organized by category (e.g., Varnas, Krithis).</li>
-                  <li><strong>Audio Player:</strong> Use the built-in player to listen to your teacher's recordings. You can adjust the playback speed to practice at your own pace.</li>
+                  <li><strong>Audio Player:</strong> Use the built-in player to listen to your teacher&apos;s recordings. You can adjust the playback speed to practice at your own pace.</li>
                   <li><strong>Lyrics & Notation:</strong> View the provided text and images to follow along during your practice sessions.</li>
                 </ul>
               </div>
@@ -59,8 +59,8 @@ export default async function InstructionsPage() {
                 </p>
                 <ul className="list-decimal pl-5 space-y-2 text-stone-600 marker:text-amber-500">
                   <li><strong>Warm-up:</strong> Always start your session with Shruti alignment (using a Tambura) and basic vocal exercises like Sarali Varisais.</li>
-                  <li><strong>Listen First:</strong> Before attempting to sing or play a new lesson, listen to the teacher's recording multiple times to internalize the melody, gamakas, and thala.</li>
-                  <li><strong>Break it Down:</strong> Practice phrase by phrase. Don't rush to complete the whole song. Focus on accuracy over speed.</li>
+                  <li><strong>Listen First:</strong> Before attempting to sing or play a new lesson, listen to the teacher&apos;s recording multiple times to internalize the melody, gamakas, and thala.</li>
+                  <li><strong>Break it Down:</strong> Practice phrase by phrase. Don&apos;t rush to complete the whole song. Focus on accuracy over speed.</li>
                   <li><strong>Thala Practice:</strong> Always keep the thala (rhythm) with your hands while practicing to ensure perfect timing.</li>
                 </ul>
               </div>
